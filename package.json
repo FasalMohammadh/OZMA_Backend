@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"pnpm tsc --watch\" \"nodemon ./dist/server.js\"",
-    "build": "tsc -b && copyfiles -f src/Config/*.json dist/Config && copyfiles -u 1 src/Public/**/**/* dist"
+    "build": "tsc --build"
   },
   "keywords": [],
   "author": "",
