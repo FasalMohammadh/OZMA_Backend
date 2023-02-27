@@ -28,6 +28,13 @@ const userModal = {
         });
         return response.data.documents;
     },
+    async findLastUser() {
+        const { data } = await axios.post('/action/find', {
+            ...MONGO_DB_CONFIG,
+            sort: { userId: -1 },
+        });
+        return data.documents.at(0) ?? null;
+    },
 };
 async function updateSpreadsheet(user) {
     const sheets = google.sheets('v4');
@@ -45,6 +52,7 @@ async function updateSpreadsheet(user) {
 }
 function parseSheetRowData(user) {
     return [
+        user.userId,
         user.fullName,
         user.dob,
         user.email,

@@ -5,3 +5,4 @@ export const MONGO_DB_CONFIG = {
   database: 'ozma',
   dataSource: 'Cluster0',
 };
+export const USER_ID_PREFIX = 'OZMA';

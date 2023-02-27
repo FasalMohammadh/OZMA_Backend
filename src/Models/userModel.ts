@@ -2,7 +2,7 @@ import { google } from 'googleapis';
 import path from 'path';
 
 import axios from './../Config/axios.js';
-import { MONGO_DB_CONFIG } from './../Config/database.js';
+import { MONGO_DB_CONFIG, USER_ID_PREFIX } from './../Config/database.js';
 
 import sendEmail from './../Helpers/sendEmail.js';
 import getDirName from './../Helpers/getDirname.js';
@@ -11,8 +11,12 @@ import { User } from './../Validations/userValidation.js';
 
 import 'dotenv/config';
 
+interface UserExtended extends User {
+  userId: string;
+}
+
 const userModal = {
-  async create(user: User) {
+  async create(user: UserExtended) {
     await axios.post('/action/insertOne', {
       ...MONGO_DB_CONFIG,
       document: user,
@@ -36,9 +40,18 @@ const userModal = {
     });
     return response.data.documents;
   },
+  async findLastUser() {
+    const { data } = await axios.post<{
+      documents: Array<UserExtended>;
+    }>('/action/find', {
+      ...MONGO_DB_CONFIG,
+      sort: { userId: -1 },
+    });
+    return data.documents.at(0) ?? null;
+  },
 };
 
-async function updateSpreadsheet(user: User) {
+async function updateSpreadsheet(user: UserExtended) {
   const sheets = google.sheets('v4');
   const authClient = await new google.auth.GoogleAuth({
     keyFile: path.resolve(getDirName(), './../Config/spreadsheet.json'),
@@ -54,8 +67,9 @@ async function updateSpreadsheet(user: User) {
   });
 }
 
-function parseSheetRowData(user: User) {
+function parseSheetRowData(user: UserExtended) {
   return [
+    user.userId,
     user.fullName,
     user.dob,
     user.email,
