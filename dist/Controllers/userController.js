@@ -21,7 +21,7 @@ const userController = {
                 for (const key in fieldErrors) {
                     allErrs.push({
                         path: key,
-                        error: fieldErrors[key]?.at(0) ?? '',
+                        error: fieldErrors[key]?.[0] ?? '',
                     });
                 }
                 response.status(400).json(allErrs);

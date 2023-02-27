@@ -33,7 +33,7 @@ const userModal = {
             ...MONGO_DB_CONFIG,
             sort: { userId: -1 },
         });
-        return data.documents.at(0) ?? null;
+        return data.documents[0] ?? null;
     },
 };
 async function updateSpreadsheet(user) {
