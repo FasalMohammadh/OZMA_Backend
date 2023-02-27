@@ -14,6 +14,7 @@ const userController = {
             });
         }
         catch (error) {
+            console.log(error, "asdasdas");
             if (error instanceof z.ZodError) {
                 const fieldErrors = error.flatten().fieldErrors;
                 const allErrs = [];

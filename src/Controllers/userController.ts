@@ -16,6 +16,7 @@ const userController: UserController = {
         userId,
       });
     } catch (error) {
+      console.log(error,"asdasdas")
       if (error instanceof z.ZodError) {
         type FieldError = { path: string; error: string };
 
