@@ -22,7 +22,10 @@ const userModal = {
       document: user,
     });
     await updateSpreadsheet(user);
-    await sendEmail(user.email, user.fullName);
+    await sendEmail(
+      user.email,
+      user.firstName.concat(' ', user.lastName).trim()
+    );
   },
 
   async findUserByEmail(email: string) {
@@ -40,6 +43,7 @@ const userModal = {
     });
     return response.data.documents;
   },
+
   async findLastUser() {
     const { data } = await axios.post<{
       documents: Array<UserExtended>;
@@ -70,13 +74,16 @@ async function updateSpreadsheet(user: UserExtended) {
 function parseSheetRowData(user: UserExtended) {
   return [
     user.userId,
-    user.fullName,
+    user.firstName,
+    user.lastName,
     user.dob,
     user.email,
-    user.mobileNumber,
+    user.mobileNumber ?? 'Not Available',
+    user.whatsappNumber,
     user.nic,
     user.address,
     user.olYear,
+    user.alYear ?? 'Not Available',
     user.profession,
     user.indexNo,
     user.photoUrl,

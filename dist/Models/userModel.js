@@ -12,7 +12,7 @@ const userModal = {
             document: user,
         });
         await updateSpreadsheet(user);
-        await sendEmail(user.email, user.fullName);
+        await sendEmail(user.email, user.firstName.concat(' ', user.lastName).trim());
     },
     async findUserByEmail(email) {
         const response = await axios.post('/action/find', {
@@ -53,13 +53,16 @@ async function updateSpreadsheet(user) {
 function parseSheetRowData(user) {
     return [
         user.userId,
-        user.fullName,
+        user.firstName,
+        user.lastName,
         user.dob,
         user.email,
-        user.mobileNumber,
+        user.mobileNumber ?? 'Not Available',
+        user.whatsappNumber,
         user.nic,
         user.address,
         user.olYear,
+        user.alYear ?? 'Not Available',
         user.profession,
         user.indexNo,
         user.photoUrl,
