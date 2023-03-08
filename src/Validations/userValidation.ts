@@ -86,8 +86,8 @@ const userSchema = z.object({
       if (value === null) return 'Not Available';
       return value;
     }),
-  photoUrl: z.string().trim().url(),
-  signatureFileUrl: z.string().trim().url(),
+  photoUrl: z.union([z.string().trim().url(), z.null()]),
+  signatureFileUrl: z.union([z.string().trim().url(), z.null()]),
   partOfSmf: z.boolean(),
   contributionToOzma: z.array(z.string()),
 });

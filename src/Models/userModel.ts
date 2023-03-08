@@ -86,8 +86,8 @@ function parseSheetRowData(user: UserExtended) {
     user.alYear ?? 'Not Available',
     user.profession,
     user.indexNo,
-    user.photoUrl,
-    user.signatureFileUrl,
+    user.photoUrl ?? 'Not Available',
+    user.signatureFileUrl ?? 'Not Available',
     user.partOfSmf ? 'Yes' : 'No',
     user.contributionToOzma.join(', '),
   ];
